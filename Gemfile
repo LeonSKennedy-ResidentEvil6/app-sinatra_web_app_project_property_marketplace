@@ -11,6 +11,10 @@ gem 'shotgun'
 gem 'pry'
 gem 'bcrypt'
 gem 'tux'
+gem 'ruby-graphviz'
+gem 'rack-flash3'
+gem 'sinatra-flash'
+gem 'rails-erd'
 
 group :test do
   gem 'rspec'
