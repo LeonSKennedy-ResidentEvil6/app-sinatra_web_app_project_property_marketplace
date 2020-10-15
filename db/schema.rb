@@ -23,12 +23,12 @@ ActiveRecord::Schema.define(version: 20201014051729) do
   end
 
   create_table "user_properties", force: :cascade do |t|
-    t.integer  "seller_id"
-    t.integer  "buy_id"
+    t.integer  "user_id"
+    t.integer  "property_id"
     t.string   "message"
-    t.integer  "applied",    default: 0
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
+    t.integer  "applied",     default: 0
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
   end
 
   create_table "users", force: :cascade do |t|

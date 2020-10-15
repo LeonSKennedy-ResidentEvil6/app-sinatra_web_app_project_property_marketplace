@@ -73,12 +73,62 @@ class UsersController < ApplicationController
 
       # continue working the following!!!!
 
-      # user can view properties they have offered to buy && offer status 
+      # buyer can view properties they have offered to buy if logged in or directed to properties list page
+      # if user is not logged in, redirect to the login page
     get '/offers' do
       if is_logged_in?
-        @offer = 
+        @offers = UserProperty.where(user_id: current_user.id)
+        if @current_user.seller
+          erb :"/properties/my_offers"
+        else 
+          redirection '/properties'
+        end 
+      else
+        redirect '/login'
       end 
     end 
+
+    # user show form page so they can update offers they sent if they are logged in as a buyer
+    # otherwise, redirect them to the login page
+    get '/update_offers' do 
+      if is_logged_in?
+        if !current_user.seller
+          @offers = UserProperty.where(user_id: current_user.id)
+          erb :"/properties/edit_my_offers"
+        else 
+          # can add falsh extension here to generate falsh error message
+          "You are not a buyer!"
+          redirect :'/properies'
+        end 
+      else 
+        # can add falsh extension here to generate falsh error message
+        "Please log in to view offers and/or listed properties"
+        redirect :"/login"
+      end 
+    end 
+
+    # buyer's update requests message that get sent
+    patch '/update_offers' do
+      @offers = UserProperty.find_by(id: params[:id].first[0].to_s)
+      @offers.update(:message => params[:message])
+      redirect '/offers'
+    end 
+
+    # buyer delete offers requests only if his logged matches in the session
+    delete '/delete_offers' do
+      @offers = UserProperty.find_by(id: params[;id].first[0].to_s)
+      if @offers.user_id == current_user.id
+        @offers.destory
+        redirect '/offers'
+      else 
+        redirect '/properties'
+      end 
+    end 
+
+    # seller
+
+
+
 
 
   # POST: /users
