@@ -125,34 +125,87 @@ class UsersController < ApplicationController
       end 
     end 
 
-    # seller
+    # seller can view properties they posted
+    # if they are logged in as a seller
+    get '/sell' do
+      if is_logged_in?
+        if current_user.seller
+          @my_properties_ids = Property.all.map {|property| property.id if property.seller_id == current_user.id}
+              @my_properties = @my_properties_ids.map{|property_id| Property.find_by_id(property_id)}
+              erb ;"/properties/my_properties"
+        else 
+            redirect '/properties'
+        end 
+      else 
+        redirect '/login'
+      end 
+    end 
 
+    # user can view single user, either a buyer or a seller if they are in the database
+    # otherwise, the user redirect to login
+    get '/users/:id' do 
+      @user = User.find_by(id: params[:id])
+      if is_logged_in?
+        erb :'/users/show'
+      else 
+        redirect :'/login'
+      end 
+    end 
 
+    # a user can edit, only his own account info
+    # otherwise the user will be redirected to the acount info page
+    get "/users/:id/edit" do
+      if is_logged_in?
+        if current_user.id === params[:id].to_i
+          erb :"/users/edit"
+        else
+          redirect to "/users/#{params[:id]}"
+        end 
+      else 
+        redirect '/login'
+      end 
+    end
 
+    # update account info in database using params to process user input in the edit.erb form
+    patch "/users/:id" do
+      if current_user.id === params[:id].to_i
+        # user must be able to authenticate their current password in order to update their password
+        if current_user.authenticate(params[:current_password])
+          current_user.update(password: params[:new_password])
+          # can add falsh extention to generate message
+          "Your password has been updated"
+          redirect to "/users/#{current_user.id}"
+          # otherwise, they can only edit other info
+        else 
+          current_user.update(
+            first_name: params[:first_name], 
+            last_name: params[:last_name], 
+            username: params[:username], 
+            email: params[:email]
+          )
+          # can add falsh extention to generate message
+          "Your profile has been updated"
+          redirect to "/users/#{current_user.id}"
+        end
+      else 
+        "Your attempt to update your info was not successful, please try again"
+        # can add falsh extention to generate message
+        redirect to "/users/#{params[:id]}"
+      end
+    end
 
+    # User can delete only their own account
+    delete "/users/:id/delete" do
+      if current_user.id === params[:id].to_i
+        current_user.destory
+        "your account has been deleted"
+        # can add falsh extention to generate message
+        redirect '/'
+      else 
+        "this account can not be deleted by unauthorized users"
+        # can add falsh extention to generate message
+        redirect "/users"
+      end 
+    end
 
-  # POST: /users
-  post "/users" do
-    redirect "/users"
-  end
-
-  # GET: /users/5
-  get "/users/:id" do
-    erb :"/users/show.html"
-  end
-
-  # GET: /users/5/edit
-  get "/users/:id/edit" do
-    erb :"/users/edit.html"
-  end
-
-  # PATCH: /users/5
-  patch "/users/:id" do
-    redirect "/users/:id"
-  end
-
-  # DELETE: /users/5/delete
-  delete "/users/:id/delete" do
-    redirect "/users"
-  end
 end

@@ -1,9 +1,22 @@
 class PropertiesController < ApplicationController
 
-  # GET: /properties
+  # user can view all properties if they logged in
   get "/properties" do
-    erb :"/properties/index.html"
+    if is_logged_in?
+      @properties = Property.all
+      erb :"/properties/index"
+    else 
+      "please log in first"
+      # add flash extention to generate error message
+      redirect '/login'
+    end
   end
+
+
+  # contiune working !!!
+  
+  # user can list a new property for sell once logged in as a seller
+
 
   # GET: /properties/new
   get "/properties/new" do
