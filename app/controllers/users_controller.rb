@@ -17,6 +17,7 @@ class UsersController < ApplicationController
         last_name: params[:last_name], 
         username: params[:username], 
         email: params[:email], 
+        biography: params[:biography],
         password: params[:password]
       )
       @user.seller = params[:seller] == "yes" ? true : false # new user select to be a seller or buyer
@@ -181,7 +182,8 @@ class UsersController < ApplicationController
             first_name: params[:first_name], 
             last_name: params[:last_name], 
             username: params[:username], 
-            email: params[:email]
+            email: params[:email],
+            biography: params[:biography]
           )
           # can add falsh extention to generate message
           "Your profile has been updated"
