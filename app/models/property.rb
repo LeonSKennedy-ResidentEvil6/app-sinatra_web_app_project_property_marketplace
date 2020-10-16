@@ -1,6 +1,5 @@
 class Property < ActiveRecord::Base
-    has_many :properties
+    belongs_to :seller, class_name: "User"
     has_many :userProperties
-    # validates is used to require input for certain attribute
-    validates :first_name, :last_name, :username, :email, presence: true
+    validates :seller_id, :address, :overview, :price, presence: true
 end
