@@ -1,1 +1,43 @@
-<h1>Insert the form to edit an instance of your model here.</h1>
+<h1>My profile</h1>
+
+  <h2><%= @user.first_name%></h2>
+        <h2><%= @user.last_name%></h2>
+        <h2><%= @user.email%></h2>
+        <h2>Biography: <%= @user.biography%>
+    </h2>
+
+    <form action="/users/<%= current_user.id%>" method="POST">
+    <input id="hidden" type="hidden" name="_method" value="patch">
+
+        <h1>Please update your profile</h1>
+
+            <label for="first_name">First Name:</label>
+            <input type="text" name="first_name" id="first_name"><%= current_user.first_name%>
+
+            <label for="last_name">Last Name:</label>
+            <input type="text" name="last_name" id="last_name"><%= current_user.last_name%>
+
+            <label for="username">Username:</label>
+            <input type="text" name="username" id="username"><%= current_user.username%>
+
+            <label for="email">Email:</label>
+            <input type="text" name="email" id="email"><%= current_user.email%>
+
+            <label for="password">Current Password:</label>
+            <input type="password" name="current_password" id="current_password">
+
+            <label for="password">New Password:</label>
+            <input type="password" name="new_password" id="new_password">
+
+            <label for="biography">biography:</label>
+            <textarea name="biography" id="biography"><%= current_user.biography %></textarea>
+
+            <input type="submit" id="submit" name="submit" value="update profile">
+
+    </form>
+
+    <form action="/users/<%= current_user.id%>" method="POST">
+        <input id="hidden" type="hidden" name="_method" value="DELETE">
+        <input type="submit" id="submit" name="submit" value="delete">
+        
+    </form>

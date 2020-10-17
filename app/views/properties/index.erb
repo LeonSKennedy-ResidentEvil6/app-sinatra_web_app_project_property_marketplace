@@ -1,1 +1,21 @@
-<h1>This is the Model's index page.</h1>
+<h1>All Properties Listed For Sale!</h1>
+
+<ul> <% @property.each do |property| %>
+    <li>
+        <h2>Property Address: <%= property.address %></h2>
+        <h2>Property Overview: <%= property.overview %></h2>
+        <h2>Property Price: <%= property.price %></h2>   
+    </li>
+     <% end %>
+</ul>
+
+<h1>If you are a buyer</h1>
+
+<% if !current_user.seller %>
+    <h2>Click <a href="/offers">here</a>to view a list of existing offers</h2>
+
+<% else %>
+<h1>If you are a seller</h1>
+    <h2>Click <a href="/sell">here</a>for a list of exising properties for sale</h2>
+    
+<% end %>
