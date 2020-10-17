@@ -1,1 +1,13 @@
-<h1>Insert the form to create a new instance of your model.</h1>
+<h1>Sign Up</h1>
+
+<form method="post" action="/signup">
+    <h2> <input type="text" name="first_name" id="first_name" placeholder="first_name" required> </h2>
+    <h2> <input type="text" name="last_name" id="last_name" placeholder="last_name" required> </h2>
+    <h2> <input type="text" name="username" id="username" placeholder="username" required> </h2>
+    <h2> <input type="email" name="email" id="email" placeholder="email" required> </h2>
+    <h2> <input type="password" name="password" id="password" placeholder="password" required> </h2>
+    <h3> Sign up as an seller? </h3>
+    <label><input type="radio" name="seller" value="no" checked >No</label>
+    
+    <input type="submit" id="submit" name="submit" value="sign up">
+</form>

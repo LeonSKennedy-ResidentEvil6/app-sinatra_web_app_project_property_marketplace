@@ -1,1 +1,21 @@
-<h1>This is the Model's index page.</h1>
+<h1>All sellers profile</h1>
+
+<div>
+    <ul> <% @sellers.each do |seller| %>
+            <li>
+                <h2> <a href="/users/<%= seller.id %>"> <%= seller.first_name, seller.last_name %></a> </h2>
+            </li>
+         <% end %>
+    </ul>
+</div>
+
+<h1>All buyers profile</h1>
+
+<div>
+    <ul> <% @buyers.each do |buyer| %>
+            <li>
+                <h2> <a href="/users/<%= buyer.id %>"> <%= buyer.first_name, buyer.last_name %></a> </h2>
+            </li>
+        <% end %>
+    </ul>
+</div>
