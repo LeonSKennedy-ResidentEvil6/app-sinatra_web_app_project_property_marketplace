@@ -1,3 +1,33 @@
 <h1>My Offers List</h1>
 
+<ol>
+    <% @offers.each do |offer| %>
+    <li>
+        <h2> Property Address: <a href="/properties/<%= offer.property_id%>"><%= find_property(offer.property_id).address%></a></h2>
 
+        <h3> Offer status: <%= offer_statu(offer.applied) %></h3>
+
+        <% if offer.applied == 0 %>
+            <form method="POST" action="/update_offers">
+            <input id="hidden" type="hidden" name="_method" value="patch">
+
+                <label for="message">Message: </label>
+                <textarea name="offer" id="message"><%= offer.message %></textarea>
+                <input type="submit" name="submit" id="submit" value="submit new message">
+            </form>
+
+            <form method="POST" action="/delete_offers">
+                <input id="hidden" type="hidden" name="_method" value="delete">
+                <input type="submit" name="submit" id="submit" value="delete this offer">
+            </form>
+
+        <% else %>
+            form method="POST" action="/delete_offers">
+                <input id="hidden" type="hidden" name="_method" value="delete">
+                <input type="submit" name="submit" id="submit" value="delete this offer">
+            </form>
+        <% end %>
+
+    </li>
+    <% end %>
+</ol>
