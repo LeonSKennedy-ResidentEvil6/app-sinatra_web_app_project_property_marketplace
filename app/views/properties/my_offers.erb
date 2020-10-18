@@ -1,1 +1,13 @@
-<h1>This page shows logged in buyer's offers for the properties they are interested in buying<h1>
+<h1>My offers<h1>
+
+<ul><% @offers.each do |offer| %>
+    <li>
+        <h2><a href="/properties/<%= offer.property_id%>"><%= find_property(offer.property_id).address %></a></h2>
+
+        <h3>Offer status: <%= offer_status(offer.applied)%></h3>
+    </li>
+    <% end %>
+</ul>
+
+
+<h2><a href="/update_offers">Update offer</a></h2>

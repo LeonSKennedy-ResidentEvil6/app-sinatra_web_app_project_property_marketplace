@@ -43,8 +43,25 @@ class ApplicationController < Sinatra::Base
     end 
   end 
 
-  def logout!
-    session.clear
-  end 
+    def logout!
+      session.clear
+    end 
+
+    # find a property by id
+    def find_property(id)
+      @property = Property.find_by_id(id)
+    end 
+
+    # show offer status
+    def offer_status(applied_value_num)
+      case applied_value_num
+        when 0
+          "pending"
+        when 1
+          "accepted"
+        else
+          "declined"
+      end 
+    end 
 
 end

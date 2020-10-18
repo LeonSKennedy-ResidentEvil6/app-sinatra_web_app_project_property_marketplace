@@ -1,1 +1,15 @@
-<h1>Insert the form to create a new instance of your model.</h1>
+<h1>List new property for sale</h1>
+
+<form method="POST" action="/properties">
+
+    <h2>Property Address: </h2>
+        <input type="text" name="address" id="address" required>
+    <h2>Property Overview: </h2>
+        <input type="text" name="overview" id="overview" required>
+    <h2>Property Price: </h2>
+        <input type="number" name="price" id="price" required>
+
+    <input type="submit" name="submit" value="list this property">
+
+</form>
+

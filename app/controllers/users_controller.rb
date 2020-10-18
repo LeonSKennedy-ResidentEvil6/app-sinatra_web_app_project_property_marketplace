@@ -79,7 +79,7 @@ class UsersController < ApplicationController
     get '/offers' do
       if is_logged_in?
         @offers = UserProperty.where(user_id: current_user.id)
-        if @current_user.seller
+        if !@current_user.seller
           erb :"/properties/my_offers"
         else 
           redirection '/properties'
