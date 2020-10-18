@@ -45,7 +45,7 @@ class PropertiesController < ApplicationController
     end 
   end
 
-  # user can visit a particular property
+  # user can view a particular property
   get "/properties/:id" do
     @property = find_property(params[:id])
     @listed_properties = UserProperty.where(property_id: params[:id])

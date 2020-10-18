@@ -1,1 +1,43 @@
-<h1>This is the show page for an individual instance of your model.</h1>
+<h1>Property profile</h1>
+
+<h2><%= @property.address %></h2>
+<h2><%= @property.overview %></h2>
+<h2><%= @property.price %></h2>
+
+<% if current_user.seller && current_user.id === @property.seller.id %>
+    <h2><a href="/properties/ <%= @property.id %>/edit">Seller, click here to edit property info</a></h2>
+
+    <h2>Buyer's offer status: </h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Buyer Name</th>
+                    <th>Offer Status</th>
+                    <th>Select: Accepted</th>
+                    <th>Select: Declined</th>
+                    <th>Confirm Change</th>
+                </tr>
+            </thead>
+            <% @listed_properties.each_with_index do |listed_property, index| %>
+                <tbody>
+                    <tr>
+                        <form method="POST" action="/properties/ <%= @property.id%>/offers">
+                            <td><% = index.to_i + 1 %></td>
+                            <td><%= User.find_by_id(listed_property.user_id).first_name %></td>
+                            <td><%= offer_status(listed_property.applied)%></td>
+                            <td><input type="radio" name="applied" value="<%=listed_property.id%>_1"
+                                <% if listed_property.applied == 1 %> 
+                                    checked 
+                                <%end%>></td>
+                            <td><input type="radio" name="applied" value="<%=listed_property.id%>_2"
+                                <% if listed_property.applied == 2 %>
+                                    checked 
+                                <%end%>></td>
+                            <td><input type="submit" name="submit" value="save changes"></td>
+                        </form>
+                    </tr>
+                </tbody>
+            <% end %>
+        </table>
+

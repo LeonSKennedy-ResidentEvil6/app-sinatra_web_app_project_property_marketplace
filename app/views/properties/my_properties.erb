@@ -1,0 +1,15 @@
+<h1>Hey seller, this is your listed properties for sale</h1>
+
+<ul>
+    <% @my_properties.each do |property| %>
+        <li>
+            <h2><a href="/properties/<%= property.id%>"><%= property.address%></a></h2>
+            <h2><a href="/properties/<%= property.id%>"><%= property.overview%></a></h2>
+            <h2><a href="/properties/<%= property.id%>"><%= property.price%></a></h2>
+        </li>
+    <% end %>
+</ul>
+
+<h2>List a new property for sale?</h2>
+
+<h3>Click<a href="/properties/new">here!</a></h3>
