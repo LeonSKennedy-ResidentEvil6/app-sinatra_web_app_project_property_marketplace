@@ -138,7 +138,7 @@ class PropertiesController < ApplicationController
     @property = find_property(params[:id])
     @new_offer = UserProperty.create(
       :message => params[:message],
-      :user_id => current_user.id
+      :user_id => current_user.id,
       :property_id => params[:id]
     )
 

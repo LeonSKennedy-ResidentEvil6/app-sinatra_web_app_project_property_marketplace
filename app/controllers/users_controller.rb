@@ -117,7 +117,7 @@ class UsersController < ApplicationController
 
     # buyer delete offers requests only if his logged matches in the session
     delete '/delete_offers' do
-      @offers = UserProperty.find_by(id: params[;id].first[0].to_s)
+      @offers = UserProperty.find_by(id: params[:id].first[0].to_s)
       if @offers.user_id == current_user.id
         @offers.destory
         redirect '/offers'
