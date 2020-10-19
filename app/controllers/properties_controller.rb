@@ -49,11 +49,11 @@ class PropertiesController < ApplicationController
   get "/properties/:id" do
     @property = find_property(params[:id])
     @listed_properties = UserProperty.where(property_id: params[:id])
-    @existing_offers = nil
+    @existing_application = nil
 
     if is_logged_in?
       if !current_user.seller
-        @existing_offers = UserProperty.where("property_id = ? AND user_id = ?", params[:id], current_user.id).first
+        @existing_application = UserProperty.where("property_id = ? AND user_id = ?", params[:id], current_user.id).first
       end 
       erb :"/properties/show"
     else 
@@ -133,8 +133,9 @@ class PropertiesController < ApplicationController
     end 
   end
 
-  # buyer can update his offers
-  post '/properties/:id/offers' do 
+  # seller can respond and update offer status
+  # buyer can update his application via message to seller
+  post '/properties/:id/application' do 
     @property = find_property(params[:id])
     @new_offer = UserProperty.create(
       :message => params[:message],
@@ -142,12 +143,12 @@ class PropertiesController < ApplicationController
       :property_id => params[:id]
     )
 
-    if @new_property.save
-      "you have just sent a new offer"
+    if @new_offer.save
+      "you have just sent a new application for this property"
       # add flash extention to generate error message
       redirect to "/properties/#{@property.id}"
     else
-      "offer is not sent. please try again"
+      "application is not sent. please try again"
       # add flash extention to generate error message
       redirect to "/properties/#{@property.id}"
     end 

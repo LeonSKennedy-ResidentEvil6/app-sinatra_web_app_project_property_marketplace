@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
 
-    # done
+
     get "/signup" do
       if is_logged_in?
         redirect '/properties'
@@ -9,18 +9,18 @@ class UsersController < ApplicationController
       end 
     end
 
-    # done
-    # create a new user
+    # create a new user account
     post '/signup' do
       @user = User.new(
         first_name: params[:first_name], 
         last_name: params[:last_name], 
         username: params[:username], 
         email: params[:email], 
-        biography: params[:biography],
+        # biography: params[:biography],
         password: params[:password]
       )
       @user.seller = params[:seller] == "yes" ? true : false # new user select to be a seller or buyer
+      bindging.pry
       if @user.save
         session[:user_id] = @user.id
         redirect '/properties'

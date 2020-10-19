@@ -41,3 +41,17 @@
             <% end %>
         </table>
 
+        <% elsif !current_user.seller %>
+            <% if @existing_application %>
+                <h2>Application Status: <%= offer_status(@existing_application.applied)%></h2>
+                <h3>click<a href="/offer">here</a>for your offer status</h3>
+            <% else %>
+                <h2>Update application via message to seller: </h2>
+                <form method="POST" action="/properties/<%= @property.id %>/application">
+                    <label for="message">Message to the seller: </label>
+                    <textarea name="message" id="message"></textarea>
+
+                    <input type="submit" name="submit" value="update application">
+                </form>
+            <% end %>
+        <% end %>
