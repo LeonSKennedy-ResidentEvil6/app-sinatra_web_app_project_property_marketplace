@@ -20,7 +20,7 @@ class UsersController < ApplicationController
         password: params[:password]
       )
       @user.seller = params[:seller] == "yes" ? true : false # new user select to be a seller or buyer
-      bindging.pry
+    
       if @user.save
         session[:user_id] = @user.id
         redirect '/properties'
@@ -82,7 +82,7 @@ class UsersController < ApplicationController
         if !@current_user.seller
           erb :"/properties/my_offers"
         else 
-          redirection '/properties'
+          redirect '/properties'
         end 
       else
         redirect '/login'
@@ -133,7 +133,7 @@ class UsersController < ApplicationController
         if current_user.seller
           @my_properties_ids = Property.all.map {|property| property.id if property.seller_id == current_user.id}
               @my_properties = @my_properties_ids.map{|property_id| Property.find_by_id(property_id)}
-              erb ;"/properties/my_properties"
+              erb :"/properties/my_properties"
         else 
             redirect '/properties'
         end 

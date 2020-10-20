@@ -3,7 +3,7 @@
 <div>
     <ul> <% @sellers.each do |seller| %>
             <li>
-                <h2> <a href="/users/<%= seller.id %>"> <%= seller.first_name, seller.last_name %></a> </h2>
+                <h2> <a href="/users/<%= seller.id %>"> <%= seller.first_name%> <%= seller.last_name%></a> </h2>
             </li>
          <% end %>
     </ul>
@@ -14,7 +14,7 @@
 <div>
     <ul> <% @buyers.each do |buyer| %>
             <li>
-                <h2> <a href="/users/<%= buyer.id %>"> <%= buyer.first_name, buyer.last_name %></a> </h2>
+                <h2> <a href="/users/<%= buyer.id %>"> <%= buyer.first_name %> <%= buyer.last_name%></a> </h2>
             </li>
         <% end %>
     </ul>

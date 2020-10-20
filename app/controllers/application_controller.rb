@@ -25,7 +25,7 @@ class ApplicationController < Sinatra::Base
 
   # look up current user stored in session using id
   def current_user
-    @current_user = User.find_by(id: session[:user_id])
+    @current_user ||= User.find_by(id: session[:user_id])
   end 
 
   def login
@@ -49,7 +49,7 @@ class ApplicationController < Sinatra::Base
 
     # find a property by id
     def find_property(id)
-      @property = Property.find_by_id(id)
+      @property ||= Property.find_by_id(id)
     end 
 
     # show offer status

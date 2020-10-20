@@ -23,7 +23,7 @@
                 <tbody>
                     <tr>
                         <form method="POST" action="/properties/ <%= @property.id%>/offers">
-                            <td><% = index.to_i + 1 %></td>
+                            <td><%= index.to_i + 1 %></td>
                             <td><%= User.find_by_id(listed_property.user_id).first_name %></td>
                             <td><%= offer_status(listed_property.applied)%></td>
                             <td><input type="radio" name="applied" value="<%=listed_property.id%>_1"
