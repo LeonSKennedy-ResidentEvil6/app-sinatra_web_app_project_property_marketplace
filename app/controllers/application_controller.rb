@@ -1,7 +1,9 @@
 require './config/environment'
 
 class ApplicationController < Sinatra::Base
- 
+  register Sinatra::ActiveRecordExtension
+  use Rack::Flash, :sweep => true
+
   configure do
     set :public_folder, 'public'
     set :views, 'app/views'
@@ -9,17 +11,23 @@ class ApplicationController < Sinatra::Base
     set :session_secret, "secret_properties"
   end
 
-  # user can view welcome page once they logged in
-  get "/" do
-    if is_logged_in?
-      redirect '/properties'
-    else 
-      erb :welcome
-    end 
+  # set flash message
+  post '/message' do
+    @message = Message.create params[:message]
+    if @message.save
+      flash[:success] = "Message saved successfully."
+    else
+      flash[:error] = "Invalid message"
+    end
+    redirect '/'
   end
 
   # helper method
   helpers do 
+
+  def flash_types
+    [:success, :notice, :warning, :error]
+  end
 
   # check if user is logged in
   def is_logged_in?

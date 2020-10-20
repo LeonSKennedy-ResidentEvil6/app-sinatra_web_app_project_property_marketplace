@@ -19,19 +19,19 @@
                     <th>Confirm Change</th>
                 </tr>
             </thead>
-            <% @listed_properties.each_with_index do |listed_property, index| %>
+            <% @property_offers.each_with_index do |property_offer, index| %>
                 <tbody>
                     <tr>
                         <form method="POST" action="/properties/ <%= @property.id%>/offers">
                             <td><%= index.to_i + 1 %></td>
-                            <td><%= User.find_by_id(listed_property.user_id).first_name %></td>
-                            <td><%= offer_status(listed_property.applied)%></td>
-                            <td><input type="radio" name="applied" value="<%=listed_property.id%>_1"
-                                <% if listed_property.applied == 1 %> 
+                            <td><%= User.find_by_id(property_offer.user_id).first_name %></td>
+                            <td><%= offer_status(property_offer.applied)%></td>
+                            <td><input type="radio" name="applied" value="<%=property_offer.id%>_1"
+                                <% if property_offer.applied == 1 %> 
                                     checked 
                                 <%end%>></td>
-                            <td><input type="radio" name="applied" value="<%=listed_property.id%>_2"
-                                <% if listed_property.applied == 2 %>
+                            <td><input type="radio" name="applied" value="<%=property_offer.id%>_2"
+                                <% if property_offer.applied == 2 %>
                                     checked 
                                 <%end%>></td>
                             <td><input type="submit" name="submit" value="save changes"></td>

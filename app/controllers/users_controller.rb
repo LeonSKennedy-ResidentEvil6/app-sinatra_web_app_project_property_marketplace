@@ -1,5 +1,14 @@
 class UsersController < ApplicationController
 
+    # user can view welcome page once they logged in
+    get "/" do
+      if is_logged_in?
+        redirect '/properties'
+      else 
+        erb :welcome
+      end 
+    end
+    
     # only new user will see the signup page
     get "/signup" do
       if is_logged_in?

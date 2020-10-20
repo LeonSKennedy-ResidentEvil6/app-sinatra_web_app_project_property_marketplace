@@ -1,33 +1,31 @@
 class PropertiesController < ApplicationController
 
-  # user can view all properties if they logged in
-  get "/properties" do
+  # user can view all properties
+  get '/properties' do
     if is_logged_in?
       @properties = Property.all
       erb :"/properties/index"
-    else 
-      "please log in first"
-      # add flash extention to generate error message
-      redirect '/login'
+    else
+      flash[:error] = "please log in first"
+      redirect to :"/login"
     end
   end
   
-  # user can list a new property for sell once logged in as a seller
+  # seller can list a new property for sell
   get "/properties/new" do
     if is_logged_in?
       if current_user.seller
         erb :"/properties/new"
       else
-        "only a seller should list a new propety to sell"
-        # add flash extention to generate error message
-        redirect "/properties"
+        flash[:error] = "Only a seller can list a new propety"
+        redirect to "/properties"
       end 
     else 
-      redirect "/login"
+      redirect to :"/login"
     end 
   end
 
-  # new property is created and saved in database upon seller submit data via form
+  # new property is created and saved in database upon submission
   post "/properties" do
     @new_property = Property.create(
       :address => params[:address],
@@ -35,20 +33,18 @@ class PropertiesController < ApplicationController
       :price => params[:price]
     )
     if @new_property.save
-      "this course has been added"
-      # add flash extention to generate error message
-      redirect "/sell"
+      flash[:message] = "This property has been listed"
+      redirect to "/sell"
     else 
-      "no course has been added. please try again"
-      # add flash extention to generate error message
-      redirect "/properties/new"
+      flash[:error] = "No course has been added. please try again"
+      redirect to "/properties/new"
     end 
   end
 
   # user can view a particular property
   get "/properties/:id" do
     @property = find_property(params[:id])
-    @listed_properties = UserProperty.where(property_id: params[:id])
+    @property_offers = UserProperty.where(property_id: params[:id])
     @existing_application = nil
 
     if is_logged_in?
@@ -57,9 +53,8 @@ class PropertiesController < ApplicationController
       end 
       erb :"/properties/show"
     else 
-      "User needs to be logged in to view a property"
-      # add flash extention to generate error message
-      redirect "/login"
+      flash[:error] = "please log in to view this property"
+      redirect to "/login"
     end 
   end
 
@@ -67,36 +62,33 @@ class PropertiesController < ApplicationController
   post '/properties/:id/offers' do 
     @property = find_property(params[:id])
     if current_user.seller && current_user.id === @property.seller.id
-      @buyer_offered = UserProperty.find_by_id(params[:applied[0].to_i])
-      @buyer_offered.update(applied: params[:applied[2].to_i])
-
-      "buyer's offer status has been updated"
-      # add flash extention to generate error message
+      @buyer_application = UserProperty.find_by_id(params[:applied[0].to_i])
+      @buyer_application.update(applied: params[:applied[2].to_i])
+      
+      flash[:message] = "Buyer's application status has been updated"
       redirect to "/properties/#{@property.id}"
     else 
       redirect to "/properties/#{@property.id}"
     end 
   end 
 
-  # seller can edit a property for sell post info
+  # seller can edit a property info
   get "/properties/:id/edit" do
     @property = find_property(params[:id])
     if is_logged_in?
       if current_user.seller && current_user.id === @property.seller_id
         erb :"/properties/edit_property"
       elsif current_user.seller && current_user.id != @property.seller_id
-        "you can only edit this property, only the owner seller can!"
-        # add flash extention to generate error message
+        flash[:error] = "Only seller can edit a property listing"
         redirect to "/properties/#{@property.id}"
       else !current_user.seller
-        "only a seller can edit a property listing"
-        # add flash extention to generate error message
-        redirect '/login'
+        flash[:error] = "Only a seller can edit a property listing"
+        redirect to :"/login"
       end 
     end 
   end
 
-  # property listing gets updated once seller is checked to be the legi owner of the property
+  # property gets updated
   patch "/properties/:id" do
     @property = find_property(params[:id])
     @property.update(
@@ -106,13 +98,11 @@ class PropertiesController < ApplicationController
     )
 
     if current_user.seller && current_user.id === @property.seller.id
-      if @property.save
-        "this property info has been updated"
-        # add flash extention to generate error message
+      if @property.save 
+        flash[:message] = "This property profile has been updated"
         redirect to "/properties/#{@property.id}"
       else
-        "unsuccessfully updated for this property. please try again"
-         # add flash extention to generate error message
+        flash[:message] = "Can't update this property profile, please try again"
         redirect to "/properties/#{@property.id}/edit"
       end 
     else 
@@ -121,35 +111,33 @@ class PropertiesController < ApplicationController
   end
 
   # seller can delete his owned properties
-  delete "/properties/:id/delete" do
+  delete "/properties/:id" do
     @property = find_property(params[:id])
     if current_user.id === @property.seller.id
       @property.destroy
       "this property listing has been deleted"
-      # add flash extention to generate error message
-      redirect '/sell'
+      flash[:deleted] = "This property is removed"
+      redirect to "/sell"
     else 
-      redirect '/properties'
+      redirect to "/properties"
     end 
   end
 
-  # seller can respond and update offer status
-  # buyer can update his application via message to seller
+  # buyer can update his offer application and send new offer
   post '/properties/:id/application' do 
     @property = find_property(params[:id])
     @new_offer = UserProperty.create(
-      :message => params[:message],
-      :user_id => current_user.id,
-      :property_id => params[:id]
+      message: params[:message],
+      user_id: current_user.id,
+      property_id: params[:id]
     )
 
     if @new_offer.save
-      "you have just sent a new application for this property"
-      # add flash extention to generate error message
+      flash[:message] = "A new offer has been made for the application"
       redirect to "/properties/#{@property.id}"
     else
       "application is not sent. please try again"
-      # add flash extention to generate error message
+      flash[:error] = "Failed to make an offer, please try again"
       redirect to "/properties/#{@property.id}"
     end 
   end 
