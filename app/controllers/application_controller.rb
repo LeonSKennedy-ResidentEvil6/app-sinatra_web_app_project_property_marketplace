@@ -2,7 +2,7 @@ require './config/environment'
 
 class ApplicationController < Sinatra::Base
   register Sinatra::ActiveRecordExtension
-  use Rack::Flash, :sweep => true
+  # use Rack::Flash, :sweep => true
 
   configure do
     set :public_folder, 'public'

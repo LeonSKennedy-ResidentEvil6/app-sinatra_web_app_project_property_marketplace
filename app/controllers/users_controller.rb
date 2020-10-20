@@ -8,7 +8,7 @@ class UsersController < ApplicationController
         erb :welcome
       end 
     end
-    
+
     # only new user will see the signup page
     get "/signup" do
       if is_logged_in?
@@ -58,7 +58,7 @@ class UsersController < ApplicationController
     get '/logout' do
       if is_logged_in?
         logout!
-        flash[:message] = "you have successfully logged. see you later!"
+        #flash[:message] = "you have successfully logged. see you later!"
       else 
         redirect to "/"
       end 
@@ -196,7 +196,6 @@ class UsersController < ApplicationController
     delete "/users/:id" do
       if current_user.id === params[:id].to_i
         current_user.destory
-        "your account has been deleted"
         flash[:deleted] = "your account has been deleted"
         redirect to "/"
       else 

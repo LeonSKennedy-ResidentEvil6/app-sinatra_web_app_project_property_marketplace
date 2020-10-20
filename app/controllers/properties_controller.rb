@@ -17,7 +17,7 @@ class PropertiesController < ApplicationController
       if current_user.seller
         erb :"/properties/new"
       else
-        flash[:error] = "Only a seller can list a new propety"
+        #flash[:error] = "Only a seller can list a new propety"
         redirect to "/properties"
       end 
     else 
@@ -33,10 +33,10 @@ class PropertiesController < ApplicationController
       :price => params[:price]
     )
     if @new_property.save
-      flash[:message] = "This property has been listed"
+      #flash[:message] = "This property has been listed"
       redirect to "/sell"
     else 
-      flash[:error] = "No course has been added. please try again"
+      #flash[:error] = "No course has been added. please try again"
       redirect to "/properties/new"
     end 
   end

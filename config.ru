@@ -7,5 +7,4 @@ end
 use Rack::MethodOverride
 use PropertiesController
 use UsersController
-use Rack::Flash
 run ApplicationController
