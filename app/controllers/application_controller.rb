@@ -9,7 +9,7 @@ class ApplicationController < Sinatra::Base
     set :session_secret, "secret_properties"
   end
 
-  # done/tested/working
+  # user can view welcome page once they logged in
   get "/" do
     if is_logged_in?
       redirect '/properties'
@@ -18,6 +18,9 @@ class ApplicationController < Sinatra::Base
     end 
   end
 
+  # helper method
+  helpers do 
+
   # check if user is logged in
   def is_logged_in?
     !!current_user # double negation returns true || false value
@@ -25,7 +28,7 @@ class ApplicationController < Sinatra::Base
 
   # look up current user stored in session using id
   def current_user
-    @current_user ||= User.find_by(id: session[:user_id])
+    @current_user ||= User.find_by_id(session[:user_id])
   end 
 
   def login
@@ -35,11 +38,10 @@ class ApplicationController < Sinatra::Base
     @user = User.find_by(:username => params[:username])
     if @user && @user.authenticate(params[:password])
       session[:user_id] = @user.id
-      redirect '/properties'
+      redirect to "/properties"
     else 
-      # can add flash extention to generate error message
-      "unable to find this user in the system"
-      redirect '/login'
+      flash[:error] = "unable to find this user in the system"
+      redirect to "/login"
     end 
   end 
 
@@ -63,5 +65,6 @@ class ApplicationController < Sinatra::Base
           "declined"
       end 
     end 
-
+  
+  end 
 end

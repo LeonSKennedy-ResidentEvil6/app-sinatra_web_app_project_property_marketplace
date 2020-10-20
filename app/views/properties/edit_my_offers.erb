@@ -13,7 +13,7 @@
 
                 <label for="message">Message: </label>
                 <textarea name="offer" id="message"><%= offer.message %></textarea>
-                <input type="submit" name="submit" id="submit" value="submit new message">
+                <input type="submit" name="id[<%=offer.id%>]" value="update new message">
             </form>
 
             <form method="POST" action="/delete_offers">
