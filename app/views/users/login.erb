@@ -1,16 +1,31 @@
-<h1>Login</h1>
+<div class="mui-row">
+    <div class="mui-col-md-12">
+        <h1>Log in</h1>
+    </div>
+    <div class="mui-col-md-8">
 
-<form action="/login" method="POST">
-    <h2>
-        <label for="username">Username:</label>
-        <input type="text" name="username" id="username" placeholder="username" required>
-    </h2>
+        <form method="POST" action="/login" class="mui-form"> 
 
-    <h2>
-        <label for="password">Password:</label>
-        <input type="password" name="password" id="password" placeholder="password" required>
-    </h2>
+                <div class="mui-textfield">
+                    <input type="text" name="username" placeholder="Username" id="username" required/>
+                </div>
+                
+                <div class="mui-textfield">
+                    <input type="password" name="password" placeholder="Password" id="password" required/>
+                </div>
+   
+            <div>
+            <button type="submit" class="mui-btn mui-btn--primary">Log In</button>
+            </div>
+        </form>
 
-    <input type="submit" id="submit" name="submit" value="submit">
-
-</form>
+        <% if flash.has?(:error) %>
+            <h3 class="error"><%= flash[:error] %></h3>
+        <% elsif flash.has?(:message) %>
+            <h3 class="message"><%= flash[:message] %></h3>
+            <h3><a href="/" style="text-decoration: underline;">Back to homepage</a><h3>
+        <% elsif flash.has?(:status) %>
+        <h3 class="message"><%= flash[:status] %></h3>
+        <% end %>
+    </div>
+</div>

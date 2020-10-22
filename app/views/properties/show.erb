@@ -1,57 +1,87 @@
-<h1>Property profile</h1>
+<div class="mui-row">
+    <div class="mui-col-md-12">  
 
-<h2><%= @property.address %></h2>
-<h2><%= @property.overview %></h2>
-<h2><%= @property.price %></h2>
-
-<% if current_user.seller && current_user.id === @property.seller.id %>
-    <h2><a href="/properties/ <%= @property.id %>/edit">Seller, click here to edit property info</a></h2>
-
-    <h2>Buyer's offer status: </h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>No.</th>
-                    <th>Buyer Name</th>
-                    <th>Offer Status</th>
-                    <th>Select: Accepted</th>
-                    <th>Select: Declined</th>
-                    <th>Confirm Change</th>
-                </tr>
-            </thead>
-            <% @property_offers.each_with_index do |property_offer, index| %>
-                <tbody>
-                    <tr>
-                        <form method="POST" action="/properties/ <%= @property.id%>/offers">
-                            <td><%= index.to_i + 1 %></td>
-                            <td><%= User.find_by_id(property_offer.user_id).first_name %></td>
-                            <td><%= offer_status(property_offer.applied)%></td>
-                            <td><input type="radio" name="applied" value="<%=property_offer.id%>_1"
-                                <% if property_offer.applied == 1 %> 
-                                    checked 
-                                <%end%>></td>
-                            <td><input type="radio" name="applied" value="<%=property_offer.id%>_2"
-                                <% if property_offer.applied == 2 %>
-                                    checked 
-                                <%end%>></td>
-                            <td><input type="submit" name="submit" value="save changes"></td>
-                        </form>
-                    </tr>
-                </tbody>
-            <% end %>
-        </table>
-
-        <% elsif !current_user.seller %>
-            <% if @existing_application %>
-                <h2>Application Status: <%= offer_status(@existing_application.applied)%></h2>
-                <h3>click<a href="/offer">here</a>for your offer status</h3>
-            <% else %>
-                <h2>Update application via message to seller: </h2>
-                <form method="POST" action="/properties/<%= @property.id %>/application">
-                    <label for="message">Message to the seller: </label>
-                    <textarea name="message" id="message"></textarea>
-
-                    <input type="submit" name="submit" value="update application">
-                </form>
-            <% end %>
+        <% if flash.has?(:error) %>
+            <h3 class="error"><%= flash[:error] %></h3>
+        <% elsif flash.has?(:message) %>
+            <h3 class="message"><%= flash[:message] %></h3>
         <% end %>
+        
+        <h1>Property Information</h1>
+
+            <span style='font-size: 5rem'><%= @property.picture%></span>
+            <h2><%= @property.address%> </h2>
+            <h4><span class="mui--divider-right">Property Overview &nbsp;</span> <%= @property.overview%></h4>
+            <h4><span class="mui--divider-right">Property Price &nbsp;</span> <%=@property.price%></h4>
+    </div>
+           
+        <% if current_user.seller && current_user.id == @property.seller.id%>
+            <div class="mui-col-md-12 mui--divider-bottom">   
+                <h3><a href="/properties/<%=@property.id%>/edit"><p>Seller, click here to edit property info</a></h3><br>
+            </div>
+
+            <div class="mui-col-md-12">  
+                <h2>Buyer's offer status:</h2>
+
+                    <table class="mui-table mui-table--bordered">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Buyer's Name</th>
+                                <th>Offer Status</th>
+                                <th>Select: Accepted</th>
+                                <th>Select: Declined</th>
+                                <th>Confirm Change</th>
+                            </tr>
+                        </thead>
+                    <%@property_offers.each_with_index do |offers, index|%>
+                        <tbody>
+                            <tr>
+                                <form method="POST" action="/properties/<%=@property.id%>/offers" class="mui-form">
+                                    <td><%=index.to_i + 1%></td>
+                                    <td><%=User.find_by_id(offers.user_id).full_name%> </td>
+                                    <td><%=application_status(offers.applied)%> </td>
+                                    <td><input type="radio" name="applied" value="<%=offers.id%>_1"
+                                            <% if offers.applied == 1 %>
+                                                checked 
+                                            <%end%>> </td>
+                                    <td><input type="radio" name="applied" value="<%=offers.id%>_2"
+                                            <% if offers.applied == 2 %>
+                                                checked 
+                                            <%end%>></td>
+                                    <td><button type="submit" class="mui-btn mui-btn--fab mui-btn--primary">Save Changes</button></td>
+                                </form>
+                            </tr>
+                        </tbody>
+                    <%end%>
+                </table>
+            </div>
+
+            <% elsif current_user.seller %>
+            <div class="mui-col-md-12 mui--divider-top">   
+                <h3>Only the owner of this property can edit it</h3>
+            </div>
+
+            <% elsif !current_user.seller %> 
+
+                <div class="mui-col-md-12 mui--divider-top">   
+                    <% if @existing_application %>
+                        <br><h3>Offer Status: <%=application_status(@existing_application.applied) %></h3>
+
+                        <h3>Click<a href="/offered">here</a>to view your offers</h3>
+                    <%else%>
+                        <h3>Send an offer to the seller of this property</h3>
+                        
+                        <form method="post" action="/properties/<%=@property.id%>/application" class="mui-form">
+
+                            <div class="mui-textfield">
+                            <br><label>Message to the seller:</label>
+                            <textarea name="message" id="message"></textarea>
+                            </div>
+                            
+                            <p><button type="submit" class="mui-btn mui-btn--raised mui-btn--primary">Send this offer</button>
+                        </form>
+                    <%end%>
+                </div>
+            <% end %>
+</div>

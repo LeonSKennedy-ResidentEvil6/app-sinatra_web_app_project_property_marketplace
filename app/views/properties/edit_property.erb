@@ -1,22 +1,35 @@
-<h1>Hi seller, edit Property Information</h1>
+<div class="mui-row">
+    <div class="mui-col-md-12">
+        <h1>Hi seller, edit your property Info before it gets sold!</h1>
 
-<form method="POST" action="/properties/<%= @property.id %>">
-<input id="hidden" type="hidden" name="_method" value="patch">
+        <form method="POST" action="/properties/<%=@property.id%>" class="mui-form">
+        <input id="hidden" type="hidden" name="_method" value="patch">
 
-<h2>Property Address: </h2>
-    <input type="text" name="address" id="address" value="<%= @property.address%>">
-<h2>Property Overview: </h2>
-    <input type="text" name="overview" id="overview" value="<%= @property.overview%>">
-<h2>Property Price: </h2>
-    <input type="number" name="price" id="price" value="<%= @property.price%>">
+        <legend>Property Address:</legend>
+        <div class="mui-textfield">
+            <input type="text" name="address" id="address" value="<%= @property.address%>"/>
+        </div>
 
-<input type="submit" id="submit" name="submit" value="update this property">
-</form>
+        <legend>Property Picture:</legend>
+        <div class="mui-textfield">
+            <input type="text" name="picture" id="picture" value="<%= @property.picture%>"/>
+        </div>
 
-<h1>Delete this property</h1>
+        <legend>Property Overview:</legend>
+        <div class="mui-textfield">
+            <textarea name="overview" id="overview"><%= @property.overview%></textarea>
+        </div>
 
-<form method="POST" action="/properties/ <%= @property.id %>">
-<input id="hidden" type="hidden" name="_method" value="delete">
+        <h3>Property Price:</h3>
+            <input type="number" name="price" id="price" value="<%= @property.price%>"/>
+                
+        <p><button type="submit" class="mui-btn mui-btn--small mui-btn mui-btn--raised mui-btn--primary">Save Changes</button>
+        
+        </form>
 
-<input type="submit" id="submit" name="submit" value="delete this property">
-</form>
+        <form method="post" action="/properties/<%=@property.id%>" class="mui-form">
+            <input id="hidden" type="hidden" name="_method" value="delete">
+            <button type="submit" class="mui-btn mui-btn--small mui-btn mui-btn--raised mui-btn--danger">Delete this property</button>
+        </form>
+    </div>
+</div>

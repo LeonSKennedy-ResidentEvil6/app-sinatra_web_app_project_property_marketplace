@@ -1,33 +1,43 @@
-<h1>My Offers List</h1>
 
-<ol>
-    <% @offers.each do |offer| %>
-    <li>
-        <h2> Property Address: <a href="/properties/<%= offer.property_id%>"><%= find_property(offer.property_id).address%></a></h2>
+<div class="mui-row">
+    <div class="mui-col-md-12">
+        <h1>My Offers List</h1>
 
-        <h3> Offer status: <%= offer_statu(offer.applied) %></h3>
+    <ol><% @offers.each do |offer|%>
+        <li>
+            <h2><span class="mui--divider-right">Property Address &nbsp;</span>
+                <a href="/properties/<%=offer.property_id%>"><%= find_property(offer.property_id).address%></a> 
+                <%= find_property(offer.property_id).picture%></h2>
 
-        <% if offer.applied == 0 %>
-            <form method="POST" action="/update_offers">
-            <input id="hidden" type="hidden" name="_method" value="patch">
+            <h4><span class="mui--divider-right">Offer status &nbsp;</span>
+                    <%=application_status(offer.applied)%> </h4>
 
-                <label for="message">Message: </label>
-                <textarea name="offer" id="message"><%= offer.message %></textarea>
-                <input type="submit" name="id[<%=offer.id%>]" value="update new message">
-            </form>
+            <% if offer.applied == 0 %>
+                <form method="POST" action="/update_offers" class="mui-form">
+                <input id="hidden" type="hidden" name="_method" value="patch">
 
-            <form method="POST" action="/delete_offers">
+                    <div class="mui-textfield">
+                        <br><label>Message to the seller:</label>
+                        <textarea name="offer" id="message"><%=offer.message%></textarea>
+                    </div>
+                    <p><button type="submit" class="mui-btn mui-btn--small mui-btn mui-btn--raised" name="id[<%=offer.id%>]">Send this new message!</button></p>
+                </form>
+
+                <form method="post" action="/delete_offers" class="mui-form">
                 <input id="hidden" type="hidden" name="_method" value="delete">
-                <input type="submit" name="submit" id="submit" value="delete this offer">
-            </form>
 
-        <% else %>
-            form method="POST" action="/delete_offers">
+                <p><button type="submit" class="mui-btn mui-btn--small mui-btn mui-btn--raised mui-btn--danger" name="id[<%=offer.id%>]">Cancel this offer request</button></p>
+                </form>
+                
+                <% else %>
+                <form method="POST" action="/delete_offers" class="mui-form">
                 <input id="hidden" type="hidden" name="_method" value="delete">
-                <input type="submit" name="submit" id="submit" value="delete this offer">
-            </form>
-        <% end %>
 
-    </li>
-    <% end %>
-</ol>
+                    <p><button type="submit" class="mui-btn mui-btn--small mui-btn mui-btn--raised mui-btn--danger" name="id[<%=offer.id%>]">Cancel this offer request</button></p>
+                </form>
+
+            <%end%>
+        </li>
+    <%end%></ol>
+    </div>
+</div>

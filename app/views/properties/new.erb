@@ -1,15 +1,30 @@
-<h1>List new property for sale</h1>
+<div class="mui-row">
+    <div class="mui-col-md-12">
+        <h1>List new property for sale</h1>
+        <form method="post" action="/properties" class="mui-form">
+            <legend>Property Address</legend>
+            <div class="mui-textfield">
+                <input type="text" name="address" id="address" required/>
+            </div>
 
-<form method="POST" action="/properties">
+            <legend>Property Picture</legend>
+            <div class="mui-textfield">    
+                <input type="text" name="picture" id="picture" />
+            </div>
 
-    <h2>Property Address: </h2>
-        <input type="text" name="address" id="address" required>
-    <h2>Property Overview: </h2>
-        <input type="text" name="overview" id="overview" required>
-    <h2>Property Price: </h2>
-        <input type="number" name="price" id="price" required>
+            <legend>Overview</legend>
+            <div class="mui-textfield">
+                <textarea name="overview" id="overview" required></textarea>
+            </div>
 
-    <input type="submit" name="submit" value="list this property">
+            <legend>Property Price</legend>
+                <input type="number" name="price" id="price" required/>
+            
+            <br><button type="submit" class="mui-btn mui-btn--primary">Ready? List this property!</button>
+        </form>
 
-</form>
-
+        <% if flash.has?(:error) %>
+            <h3 class="error"><%= flash[:error] %></h3>
+        <% end %>
+    </div>
+</div>

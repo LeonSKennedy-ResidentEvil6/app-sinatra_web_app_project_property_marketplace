@@ -1,18 +1,36 @@
-<h1>All Properties Listed For Sale!</h1>
 
-<ul> <% @properties.each do |property| %>
-    <li>
-        <h2>Property Address: <a href="/properties/<%=property.id%>"> <%= property.address %></a></h2>
-        <h2>Seller's First Name: <%= property.seller.first_name%></h2>
-        <h2>Seller's Last Name: <%= property.seller.last_name%></h2>
-        <h2>Property Overview: <%= property.overview %></h2>
-        <h2>Property Price: <%= property.price %></h2>   
-    </li>
-     <% end %>
-</ul>
+<div class="mui-row">
 
-<% if !current_user.seller %>
-    <h2>Click <a href="/offers">here</a>to view a list of existing offers I've made</h2>
-<% else %>
-    <h2>Click <a href="/sell">here</a>for a list of exising properties I want to sell</h2>
-<% end %>
+    <div class="mui-col-md-12">
+
+    <% if flash.has?(:error) %>
+        <h3 class="error"><%= flash[:error] %></h3>
+    <% end %>
+    
+    <h1>All Properties Listed For Sale!</h1>
+
+        <ul><% @properties.each do |property|%>
+            <li>
+            <h3>Property Address: <a href="/properties/<%=property.id%>"><%= property.address%> </a> <%= property.picture%></h3>
+            
+            <p><span class="mui--divider-right">Who is the seller? &nbsp;</span>
+                <%= property.seller.full_name %> </p>
+
+            <p><span class="mui--divider-right">Property Overview &nbsp;</span>
+                <%= property.overview %></p>
+
+            <p><span class="mui--divider-right">How much seller is selling for? &nbsp;</span>    
+                <%= property.price %></p>
+            </li>
+            
+        <%end%></ul>
+    </div>
+
+    <div class="mui-col-md-12">
+        <% if !current_user.seller %>
+            <h3><a href="/offered">A buyer? Click here to view your offers!</a></h3>
+        <% else %>
+            <h3><a href="/sell"><p>A seller? Click here to view properties you are selling!</a></h3>
+        <% end %>
+    </div>
+</div>

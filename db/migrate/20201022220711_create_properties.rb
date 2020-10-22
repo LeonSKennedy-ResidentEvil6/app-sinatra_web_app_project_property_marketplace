@@ -1,11 +1,11 @@
 class CreateProperties < ActiveRecord::Migration
   def change
-    create_table :properties do |t|
+      create_table :properties do |t|
       t.string :address
+      t.string :picture
       t.string :overview
       t.integer :price
       t.integer :seller_id
-      t.timestamps null: false
-    end
+      end 
   end
 end

@@ -1,32 +1,94 @@
 <!DOCTYPE html>
-<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
-<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
-<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<html>
   <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1" />
+    <title>Property Marketplace</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="//cdn.muicss.com/mui-0.9.18/css/mui.min.css" rel="stylesheet" type="text/css" />
+    <script src="//cdn.muicss.com/mui-0.9.18/js/mui.min.js"></script>
+    <style>
+      @import "bower_components/mui/src/sass/mui/colors";
 
-    <title>AppSinatraWebAppProjectPropertyMarketplace</title>
+      body {
+        background-color: #eee;
+      }
+      body > .mui-container {
+        background-color: #fff;
+        min-height: 100vh;
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        box-shadow: 0 0 10px 0px rgba(0, 0, 0, 0.1);
+      }
+      .mui-appbar {
+        background: #01579B;
+      }
+      .mui-appbar .brand {
+        line-height: 56px;
+        font-size: 3rem;
+      }
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      h3.error {
+        color: red;
+      }
 
-    <link rel="stylesheet" href="/stylesheets/main.css" />
+      h3.deleted {
+        color: red;
+      }
+
+      h3.message {
+        color: #0091EA;
+      }
+
+      h3.status {
+        color: #0091EA;
+      }
+
+    </style>
   </head>
+
+
   <body>
-    <div class="wrapper">
+    <div class="mui-appbar">
+      <div class="mui-container-fluid">
+        <div class="mui-col-md-10">
+          <div class="brand">Property Marketplace
+          </div>
+        </div>
 
-        <%= yield %>
+        <div class="mui-col-md-2">
+         <% if is_logged_in? %>
+            <div class="mui-dropdown">
+              <button class="mui-btn mui-btn--raised" data-mui-toggle="dropdown">
+                 ☰
+                <span class="mui-caret"></span>
+              </button>
+              <ul class="mui-dropdown__menu mui-dropdown__menu--right">
+                <li><a href="/users/<%=current_user.id%>/edit">Update my account</a></li>
+                <li><a href="/users">View users</a></li>
+                <li><a href="/properties">View properties</a></li>
 
-      <footer class="branding">
-        <small>&copy; 2020 <strong>AppSinatraWebAppProjectPropertyMarketplace</strong></small>
-      </footer>
+                <%# Seller menu links %>
+                <% if current_user.seller%>
+                  <li><a href="/properties/new">List a new property</a></li>
+                  <li><a href="/sell">My properties</a></li>
+
+                <%# Buyer menu links %>  
+                <%else%>
+                  <li><a href="/offered">My Offers</a></li>
+                <%end%>
+                <li><a href="/logout">Log out</a></li>
+              </ul>
+            </div>
+          <% end %>
+        </div>
+        
+      </div>
     </div>
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-    <!--[if lt IE 7]>
-      <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.2/CFInstall.min.js"></script>
-      <script>window.attachEvent("onload",function(){CFInstall.check({mode:"overlay"})})</script>
-    <![endif]-->
+
+    <div class="mui-container">
+      <%= yield %>
+    </div>
   </body>
 </html>

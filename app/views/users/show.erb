@@ -1,19 +1,34 @@
-<h1>My Profile</h1>
-
+<div class="mui-row">
     <% if current_user == @user %>
-        <h2><%= @user.first_name%></h2>
-        <h2><%= @user.last_name%></h2>
-        <h2><%= @user.email%></h2>
-        <h2>Biography: <%= @user.biography%></h2>
-        <h3><a href="/users/<%= current_user.id %>/edit">Update profile</a></h3>
+        <div class="mui-col-md-12">
+        <h1>My Profile</h1>
+            <h3><span class="mui--divider-right">Full name &nbsp;</span> <%=@user.full_name%></h3>
 
+            <h3><span class="mui--divider-right">Email &nbsp;</span> <%=@user.email%></h3>
+
+            <h3>Biography: </h3>
+            <h4><%=@user.biography%></h4>
+
+            <h3><a href="/users/<%=current_user.id%>/edit">Update my profile</a></h3>
+
+            <% if flash.has?(:error) %>
+                <h3 class="error"><%= flash[:error] %></h3>
+            <% elsif flash.has?(:message) %>
+                <h3 class="message"><%= flash[:message] %></h3>
+            <% end %>
+
+        </div>
     <% else %>
 
-    <h1>All users profile</h1>
+        <div class="mui-col-md-12">
+        <h1>All sellers and buyers profile</h1>
+            <h3><span class="mui--divider-right">Full name &nbsp;</span> <%=@user.full_name%></h3>
 
-        <h2><%= @user.first_name%></h2>
-        <h2><%= @user.last_name%></h2>
-        <h2><%= @user.email%></h2>
-        <h2>Biography: <%= @user.biography%></h2>
+            <h3><span class="mui--divider-right">Email &nbsp;</span> <%=@user.email%></h3>
+
+            <h3>Biography: </h3>
+            <h4><%=@user.biography%></h4>
+        </div>
 
     <% end %>
+</div>

@@ -11,36 +11,30 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20201014051729) do
+ActiveRecord::Schema.define(version: 20201022220726) do
 
   create_table "properties", force: :cascade do |t|
-    t.string   "address"
-    t.string   "overview"
-    t.integer  "price"
-    t.integer  "seller_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string  "address"
+    t.string  "picture"
+    t.string  "overview"
+    t.integer "price"
+    t.integer "seller_id"
   end
 
   create_table "user_properties", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "property_id"
-    t.string   "message"
-    t.integer  "applied",     default: 0
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.integer "applied",     default: 0
+    t.string  "message"
+    t.integer "user_id"
+    t.integer "property_id"
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "first_name"
-    t.string   "last_name"
-    t.string   "username"
-    t.string   "email"
-    t.string   "password_digest"
-    t.string   "biography"
-    t.boolean  "seller"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.string  "full_name"
+    t.string  "username"
+    t.string  "email"
+    t.string  "password_digest"
+    t.boolean "seller"
+    t.string  "biography"
   end
 
 end

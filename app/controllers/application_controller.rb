@@ -2,77 +2,73 @@ require './config/environment'
 
 class ApplicationController < Sinatra::Base
   register Sinatra::ActiveRecordExtension
-  # use Rack::Flash, :sweep => true
+  enable :sessions
+  use Rack::Flash
+  
+  set :session_secret, "secret_properties"
+  set :views, Proc.new { File.join(root, "../views/") }
 
-  configure do
-    set :public_folder, 'public'
-    set :views, 'app/views'
-    enable :sessions
-    set :session_secret, "secret_properties"
-  end
-
-  # set flash message
-  post '/message' do
-    @message = Message.create params[:message]
-    if @message.save
-      flash[:success] = "Message saved successfully."
+  # user can view welcome page if not logged in
+  get '/' do
+    if is_logged_in?
+        redirect to "/properties"
     else
-      flash[:error] = "Invalid message"
+        erb :welcome
     end
-    redirect '/'
   end
 
-  # helper method
-  helpers do 
+  # HELPER METHODS
+  helpers do
 
-  def flash_types
-    [:success, :notice, :warning, :error]
-  end
+      # check if user is logged in
+    def is_logged_in?
+      !!current_user # double negation returns true || false value
+    end
+    
+    # look up current user stored in session using id
+    def current_user
+      @current_user ||= User.find_by_id(session[:user_id])
+    end
 
-  # check if user is logged in
-  def is_logged_in?
-    !!current_user # double negation returns true || false value
-  end 
-
-  # look up current user stored in session using id
-  def current_user
-    @current_user ||= User.find_by_id(session[:user_id])
-  end 
-
-  def login
-    # check if the user knows the username && password can be authenticated
-    # if so, set the session
-    # otherwise, user is redirect to login page
-    @user = User.find_by(:username => params[:username])
-    if @user && @user.authenticate(params[:password])
-      session[:user_id] = @user.id
-      redirect to "/properties"
-    else 
-      flash[:error] = "unable to find this user in the system"
-      redirect to "/login"
-    end 
-  end 
-
-    def logout!
-      session.clear
+    def login
+      # check if the user knows the username && password can be authenticated
+      # if so, set the session
+      # otherwise, user is redirect to login page
+      @user = User.find_by(:username => params[:username])
+      if @user && @user.authenticate(params[:password])
+        session[:user_id] = @user.id
+        redirect to "/properties"
+      else 
+        flash[:error] = 'Unable to find this user in the system'
+        redirect to "/login"
+      end 
     end 
 
-    # find a property by id
+    # Find a course based on id
     def find_property(id)
-      @property ||= Property.find_by_id(id)
+      @find_property ||= Property.find_by_id(id)
+    end
+
+    def logout
+      if is_logged_in?
+        session.clear
+        flash[:message] = "you have logged. See you later!"
+        redirect to "/login"
+      else
+        redirect to "/"
+      end
     end 
 
-    # show offer status
-    def offer_status(applied_value_num)
+    # show buyer application status
+    def application_status(applied_value_num)
       case applied_value_num
         when 0
-          "pending"
+          "sent"
         when 1
           "accepted"
         else
           "declined"
-      end 
-    end 
-  
-  end 
+        end
+    end
+  end
 end

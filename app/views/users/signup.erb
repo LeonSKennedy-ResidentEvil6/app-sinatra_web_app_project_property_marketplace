@@ -1,14 +1,41 @@
-<h1>Sign Up</h1>
 
-<form method="post" action="/signup">
-    <h2> <input type="text" name="first_name" id="first_name" placeholder="first_name" required> </h2>
-    <h2> <input type="text" name="last_name" id="last_name" placeholder="last_name" required> </h2>
-    <h2> <input type="text" name="username" id="username" placeholder="username" required> </h2>
-    <h2> <input type="email" name="email" id="email" placeholder="email" required> </h2>
-    <h2> <input type="password" name="password" id="password" placeholder="password" required> </h2>
-    <h3> Sign up as an seller? </h3>
-    <label><input type="radio" name="seller" value="yes">Yes</label>
-    <label><input type="radio" name="seller" value="no" checked >No</label>
-    
-    <input type="submit" id="submit" name="submit" value="sign up">
-</form>
+<div class="mui-row">
+    <div class="mui-col-md-12">
+        <h1>Sign up</h1>
+
+        <form method="POST" action="/signup" class="mui-form"> 
+
+            <div class="mui-textfield">
+                <input type="text" name="full_name" placeholder="Full Name" id="fullname" required/>
+            </div>
+
+            <div class="mui-textfield"> 
+                <input type="text" name="username" placeholder="Username" id="username" required/>
+            </div>
+
+            <div class="mui-textfield"> 
+                <input type="email" name="email"  placeholder="Email" id="email" required/>
+            </div>
+
+            <div class="mui-textfield">
+                <input type="password" name="password" placeholder="Password" id="password" required/>
+            </div>
+
+            <h3>Sign up as a seller?</h3>
+
+            <div class="mui-radio">
+                <label><input type="radio" name="seller" value="yes" checked />Yes</label>
+            </div>
+
+            <div class="mui-radio">
+                <label><input type="radio" name="seller" value="no" />No</label>
+            </div>
+
+            <button type="submit" class="mui-btn mui-btn--primary">Create Account</button>
+        </form>
+
+        <% if flash.has?(:error) %>
+            <h3 class="error"><%= flash[:error] %></h3>
+        <% end %>
+    </div>
+</div>

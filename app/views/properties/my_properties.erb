@@ -1,15 +1,26 @@
-<h1>Hey seller, this is your listed properties for sale</h1>
+<div class="mui-row">
+    <div class="mui-col-md-12">
+        <h1>Hey seller, this is your listed properties for sale</h1>
+            <ul><% @my_properties.each do |property|%>
+                <li>
+                <h3><a href="/properties/<%=property.id%>"><%= property.address%></a>
+                    <%= property.picture%></h3>
 
-<ul>
-    <% @my_properties.each do |property| %>
-        <li>
-            <h2><a href="/properties/<%= property.id%>"><%= property.address%></a></h2>
-            <h2><a href="/properties/<%= property.id%>"><%= property.overview%></a></h2>
-            <h2><a href="/properties/<%= property.id%>"><%= property.price%></a></h2>
-        </li>
-    <% end %>
-</ul>
+                <h4><span class="mui--divider-right">Property Overview &nbsp;</span> <%= property.overview%></h4>
+                <h4><span class="mui--divider-right">Property Price &nbsp;</span> <%= property.price%></h4>
+                    </li>
+            <%end%></ul>
+    </div>
 
-<h2>List a new property for sale?</h2>
+    <div class="mui-col-md-12">
+        <h3><a href="/properties/new">List a new property</a></h3>
 
-<h3>Click<a href="/properties/new">here!</a></h3>
+        <% if flash.has?(:error) %>
+            <h3 class="error"><%= flash[:error] %></h3>
+        <% elsif flash.has?(:deleted) %>
+            <h3 class="deleted"><%= flash[:deleted] %></h3>
+        <% elsif flash.has?(:message) %>
+            <h3 class="message"><%= flash[:message] %></h3>
+        <% end %>
+    </div>
+</div>
