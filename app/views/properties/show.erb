@@ -29,9 +29,9 @@
                                 <th>No.</th>
                                 <th>Buyer's Name</th>
                                 <th>Offer Status</th>
-                                <th>Select: Accepted</th>
-                                <th>Select: Declined</th>
-                                <th>Confirm Change</th>
+                                <th>Accept?</th>
+                                <th>Decline?</th>
+                                <th>Update Status</th>
                             </tr>
                         </thead>
                     <%@property_offers.each_with_index do |offers, index|%>
@@ -44,12 +44,16 @@
                                     <td><input type="radio" name="applied" value="<%=offers.id%>_1"
                                             <% if offers.applied == 1 %>
                                                 checked 
+                                            <% else %>
+                                                flash[:error] = "Accept or decline?"
                                             <%end%>> </td>
                                     <td><input type="radio" name="applied" value="<%=offers.id%>_2"
                                             <% if offers.applied == 2 %>
                                                 checked 
+                                            <% else %>
+                                                flash[:error] = "Accept or decline?"
                                             <%end%>></td>
-                                    <td><button type="submit" class="mui-btn mui-btn--fab mui-btn--primary">Save Changes</button></td>
+                                    <td><button type="submit" class="mui-btn mui-btn--fab mui-btn--primary">Yes</button></td>
                                 </form>
                             </tr>
                         </tbody>

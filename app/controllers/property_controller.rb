@@ -65,7 +65,7 @@ class PropertyController < ApplicationController
   # seller can view and change buyer's offer request status
   post '/properties/:id/offers' do
       @property = find_property(params[:id])
-      if current_user.seller && current_user.id === @property.seller.id
+      if current_user.seller && current_user.id == @property.seller.id
           @current_offer = UserProperty.find_by_id(params[:applied][0].to_i)
           @current_offer.update(applied: params[:applied][2].to_i)
 
