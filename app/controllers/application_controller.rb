@@ -44,7 +44,7 @@ class ApplicationController < Sinatra::Base
       end 
     end 
 
-    # Find a course based on id
+    # Find a property based on id
     def find_property(id)
       @find_property ||= Property.find_by_id(id)
     end
